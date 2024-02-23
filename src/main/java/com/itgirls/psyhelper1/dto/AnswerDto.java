@@ -11,7 +11,7 @@ import java.util.UUID;
 @Data
 @Getter
 @Setter
-public class AnswerToQuestionDto {
+public class AnswerDto {
     private UUID id;
     private String answerText;
     private boolean isRead;
