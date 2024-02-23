@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface AnswerService {
-    AnswerDto createAnswer(AnswerDto answerDto);
-    AnswerDto saveAnswer(AnswerDto answer);
+    AnswerDto saveAnswer(AnswerDto answerDto);
     AnswerDto updateAnswer(AnswerDto answerDto);
     void deleteAnswerById(UUID id);
     List<AnswerDto> getAllAnswers();
