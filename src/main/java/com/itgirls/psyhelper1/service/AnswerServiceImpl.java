@@ -17,17 +17,19 @@ import java.util.UUID;
 public class AnswerServiceImpl implements AnswerService {
     private final AnswerRepository answerRepository;
 
-    public AnswerDto
+
 
     @Override
-    public void deleteAnswerById(UUID id) {
-        Optional<Answer> answer = answerRepository.findById(id);
-        if(answer.isPresent()) {
-            answerRepository.deleteById(id);
+    public void deleteAnswer(UUID id) {
+        log.info("Deleting answer with id: {}", id);
+        Optional<Answer> optionalAnswer = answerRepository.findById(id);
+        if (optionalAnswer.isPresent()) {
+            Answer answer = optionalAnswer.get();
+            answerRepository.delete(answer);
             log.info("Answer with id {} " + id + " was deleted");
         } else {
             log.info("Can't find answer with id {} " + id);
-            throw new NoSuchElementException("No value present");
+            throw new NoSuchElementException("Answer not found.");
         }
     }
 }
