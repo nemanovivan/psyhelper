@@ -8,7 +8,7 @@ import java.util.UUID;
 public interface AnswerService {
     AnswerDto createAnswer(AnswerDto answerDto);
     AnswerDto updateAnswer(AnswerDto answerDto);
-    void deleteAnswerById(UUID id);
+    void deleteAnswer(UUID id);
     List<AnswerDto> getAllAnswers();
     List<AnswerDto> getAnswersByUserId(UUID userId);
     List<AnswerDto> getAnswersByQuestionId(UUID questionId);
