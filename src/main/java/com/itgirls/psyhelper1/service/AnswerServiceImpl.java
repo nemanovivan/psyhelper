@@ -55,8 +55,33 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public AnswerDto updateAnswer(AnswerUpdateDto answerDto) {
-        return null;
+    public AnswerDto updateAnswer(UUID id, AnswerUpdateDto answerDto) {
+        log.info("Updating answer: {}", answerDto);
+        Optional<Answer> optionalAnswer = answerRepository.findById(id);
+        if (optionalAnswer.isEmpty()) {
+            throw new NoSuchElementException("Answer id: " + id + " not found");
+        }
+        Optional<Users> user = usersRepository.findById(answerDto.getUserId());
+        if (user.isEmpty()) {
+            throw new NoSuchElementException("User not found");
+        }
+        Answer answer = optionalAnswer.get();
+        if (answer.getAnswerText() == null || answer.getAnswerText().isEmpty()) {
+            throw new IllegalArgumentException("Answer text cannot be empty");
+        }
+        answer.setUserId(user.get());
+        answer.setQuestionId(answerDto.getQuestionId());
+        answer.setAnswerText(answerDto.getAnswerText());
+        answer.setRead(answerDto.getIsRead());
+        answer.setUpdatedAt(answerDto.getUpdatedAt());
+        try {
+            Answer savedAnswer = answerRepository.save(answer);
+            log.info("Answer updated successfully id: {}", savedAnswer.getId());
+            return answerMapper.toDto(savedAnswer);
+        } catch (Exception e) {
+            log.error("Failed to update answer: " + e.getMessage(), e);
+            throw new IllegalStateException("Failed to update answer");
+        }
     }
 
     @Override

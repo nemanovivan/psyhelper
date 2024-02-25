@@ -14,8 +14,8 @@ import java.util.UUID;
 @Data
 public class AnswerUpdateDto {
     private String answerText;
-    private boolean isRead;
-    private boolean isAuthorLiked;
+    private Boolean isRead;
+    private Boolean isAuthorLiked;
     private Timestamp updatedAt;
     private UUID userId;
     private UUID questionId;

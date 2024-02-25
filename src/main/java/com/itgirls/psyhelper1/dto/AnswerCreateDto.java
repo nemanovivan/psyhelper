@@ -11,7 +11,7 @@ import java.util.UUID;
 @Data
 public class AnswerCreateDto {
     private String answerText;
-    private boolean isAuthorLiked;
+    private Boolean isAuthorLiked;
     private Timestamp createdAt;
     private UUID userId;
     private UUID questionId;
