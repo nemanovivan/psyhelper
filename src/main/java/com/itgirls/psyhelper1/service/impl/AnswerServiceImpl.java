@@ -1,4 +1,4 @@
-package com.itgirls.psyhelper1.service;
+package com.itgirls.psyhelper1.service.impl;
 
 import com.itgirls.psyhelper1.dto.AnswerCreateDto;
 import com.itgirls.psyhelper1.dto.AnswerDto;
@@ -8,6 +8,7 @@ import com.itgirls.psyhelper1.model.Answer;
 import com.itgirls.psyhelper1.model.Users;
 import com.itgirls.psyhelper1.repository.AnswerRepository;
 import com.itgirls.psyhelper1.repository.UsersRepository;
+import com.itgirls.psyhelper1.service.AnswerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
