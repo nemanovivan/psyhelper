@@ -24,8 +24,7 @@ public class AnswerServiceImpl implements AnswerService {
         log.info("Deleting answer with id: {}", id);
         Optional<Answer> optionalAnswer = answerRepository.findById(id);
         if (optionalAnswer.isPresent()) {
-            Answer answer = optionalAnswer.get();
-            answerRepository.delete(answer);
+            answerRepository.deleteById(id);
             log.info("Answer with id {} " + id + " was deleted");
         } else {
             log.info("Can't find answer with id {} " + id);
