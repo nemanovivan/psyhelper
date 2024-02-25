@@ -39,6 +39,10 @@ public class Answer {
 
     @ManyToOne
     @JoinColumn(name = "question_id")
-    //должно быть Question question
+    /*
+    TODO:
+    @JoinColumn(name = "question_id", nullable = false)
+    private Question questionId;
+     */
     private UUID questionId;
 }
