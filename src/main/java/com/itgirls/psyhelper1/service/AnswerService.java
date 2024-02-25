@@ -1,13 +1,15 @@
 package com.itgirls.psyhelper1.service;
 
+import com.itgirls.psyhelper1.dto.AnswerCreateDto;
 import com.itgirls.psyhelper1.dto.AnswerDto;
+import com.itgirls.psyhelper1.dto.AnswerUpdateDto;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface AnswerService {
-    AnswerDto createAnswer(AnswerDto answerDto);
-    AnswerDto updateAnswer(AnswerDto answerDto);
+    AnswerDto createAnswer(AnswerCreateDto answerCreateDto);
+    AnswerDto updateAnswer(AnswerUpdateDto answerUpdateDto);
     void deleteAnswer(UUID id);
     List<AnswerDto> getAllAnswers();
     List<AnswerDto> getAnswersByUserId(UUID userId);
