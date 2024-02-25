@@ -33,11 +33,12 @@ public class Answer {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "user_id")
     private Users userId;
 
     @ManyToOne
     @JoinColumn(name = "question_id")
+    //должно быть Question question
     private UUID questionId;
 }

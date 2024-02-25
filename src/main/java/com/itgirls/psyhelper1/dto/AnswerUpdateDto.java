@@ -13,10 +13,10 @@ import java.util.UUID;
 @Builder
 @Data
 public class AnswerUpdateDto {
-    private UUID userId;
-    private UUID questionId;
     private String answerText;
     private boolean isRead;
     private boolean isAuthorLiked;
     private Timestamp updatedAt;
+    private UUID userId;
+    private UUID questionId;
 }

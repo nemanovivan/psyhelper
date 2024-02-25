@@ -10,9 +10,9 @@ import java.util.UUID;
 @Builder
 @Data
 public class AnswerCreateDto {
-    private UUID userId;
-    private UUID questionId;
     private String answerText;
     private boolean isAuthorLiked;
     private Timestamp createdAt;
+    private UUID userId;
+    private UUID questionId;
 }

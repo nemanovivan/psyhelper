@@ -1,7 +1,10 @@
 package com.itgirls.psyhelper1.service;
 
+import com.itgirls.psyhelper1.dto.AnswerCreateDto;
 import com.itgirls.psyhelper1.dto.AnswerDto;
+import com.itgirls.psyhelper1.dto.AnswerUpdateDto;
 import com.itgirls.psyhelper1.mappers.AnswerMapper;
+import com.itgirls.psyhelper1.exception.NotFoundException;
 import com.itgirls.psyhelper1.model.Answer;
 import com.itgirls.psyhelper1.model.Users;
 import com.itgirls.psyhelper1.repository.AnswerRepository;
@@ -10,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,21 +28,35 @@ public class AnswerServiceImpl implements AnswerService {
     private final AnswerMapper answerMapper;
 
     @Override
-    public AnswerDto createAnswer(AnswerDto answerDto) {
+    public AnswerDto createAnswer(AnswerCreateDto answerDto) {
         log.info("Creating new answer: {}", answerDto);
         //Получение пользователя по userId
         Optional<Users> user = usersRepository.findById(answerDto.getUserId());
         if (user.isEmpty()) {
             throw new NoSuchElementException("User not found");
         }
-        // Создать новый объект ответа и задать значения
+        // Преобразование объекта AnswerCreateDto в объект Answer с помощью AnswerMapper.toEntity()
         Answer answer = answerMapper.toEntity(answerDto);
+        if (answer.getAnswerText() == null || answer.getAnswerText().isEmpty()) {
+            throw new IllegalArgumentException("Answer text cannot be empty");
+        }
         answer.setUserId(user.get());
         answer.setRead(false);
         answer.setAuthorLiked(false);
-        Answer savedAnswer = answerRepository.save(answer);
-        log.info("Answer created successfully id: {}", savedAnswer.getId());
-        return answerMapper.toDto(savedAnswer);
+        answer.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        try {
+            Answer savedAnswer = answerRepository.save(answer);
+            log.info("Answer created successfully id: {}", savedAnswer.getId());
+            return answerMapper.toDto(savedAnswer);
+        } catch (Exception e) {
+            log.error("Failed to save answer: " + e.getMessage(), e);
+            throw new IllegalStateException("Failed to create answer");
+        }
+    }
+
+    @Override
+    public AnswerDto updateAnswer(AnswerUpdateDto answerDto) {
+        return null;
     }
 
     @Override
@@ -51,5 +70,25 @@ public class AnswerServiceImpl implements AnswerService {
             log.info("Can't find answer with id {} ", id);
             throw new NoSuchElementException("Answer not found.");
         }
+    }
+
+    @Override
+    public List<AnswerDto> getAllAnswers() {
+        return null;
+    }
+
+    @Override
+    public List<AnswerDto> getAnswersByUserId(UUID userId) {
+        return null;
+    }
+
+    @Override
+    public List<AnswerDto> getAnswersByQuestionId(UUID questionId) {
+        return null;
+    }
+
+    @Override
+    public AnswerDto getAnswerById(UUID id) {
+        return null;
     }
 }
