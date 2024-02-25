@@ -4,7 +4,6 @@ import com.itgirls.psyhelper1.dto.AnswerCreateDto;
 import com.itgirls.psyhelper1.dto.AnswerDto;
 import com.itgirls.psyhelper1.dto.AnswerUpdateDto;
 import com.itgirls.psyhelper1.mappers.AnswerMapper;
-import com.itgirls.psyhelper1.exception.NotFoundException;
 import com.itgirls.psyhelper1.model.Answer;
 import com.itgirls.psyhelper1.model.Users;
 import com.itgirls.psyhelper1.repository.AnswerRepository;
@@ -99,7 +98,9 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public List<AnswerDto> getAllAnswers() {
-        return null;
+        log.info("Getting all answers");
+        List<Answer> answers = answerRepository.findAll();
+        return answers.stream().map(answerMapper::toDto).toList();
     }
 
     @Override
