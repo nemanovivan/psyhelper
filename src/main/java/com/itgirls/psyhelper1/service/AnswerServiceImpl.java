@@ -105,12 +105,24 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public List<AnswerDto> getAnswersByUserId(UUID userId) {
-        return null;
+        log.info("Getting answers by user id: {}", userId);
+        Optional<Answer> answers = answerRepository.findByUserId(userId);
+        if (answers.isEmpty()) {
+            log.error("Can't find answers with user id {}", userId);
+            throw new NoSuchElementException("Answers not found");
+        }
+        return answers.stream().map(answerMapper::toDto).toList();
     }
 
     @Override
     public List<AnswerDto> getAnswersByQuestionId(UUID questionId) {
-        return null;
+        log.info("Getting answers by question id: {}",questionId);
+        Optional<Answer> answers = answerRepository.findByQuestionId(questionId);
+        if (answers.isEmpty()) {
+            log.error("Can't find answers with question id {}", questionId);
+            throw new NoSuchElementException("Answers not found");
+        }
+        return answers.stream().map(answerMapper::toDto).toList();
     }
 
     @Override
