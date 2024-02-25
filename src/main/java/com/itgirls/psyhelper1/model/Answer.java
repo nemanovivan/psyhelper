@@ -35,7 +35,7 @@ public class Answer {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UUID userId;
+    private Users userId;
 
     @ManyToOne
     @JoinColumn(name = "question_id")
