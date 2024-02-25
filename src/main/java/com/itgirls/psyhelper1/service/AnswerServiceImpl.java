@@ -91,7 +91,7 @@ public class AnswerServiceImpl implements AnswerService {
             answerRepository.deleteById(id);
             log.info("Answer was deleted with id {}", id);
         } else {
-            log.info("Can't find answer with id {} ", id);
+            log.error("Can't find answer with id {} ", id);
             throw new NoSuchElementException("Answer not found.");
         }
     }
@@ -115,6 +115,14 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public AnswerDto getAnswerById(UUID id) {
-        return null;
+        log.info("Getting answer: {}", id);
+        Optional<Answer> optionalAnswer = answerRepository.findById(id);
+        if (optionalAnswer.isEmpty()) {
+            log.error("Can't find answer with id {} ", id);
+            throw new NoSuchElementException("Answer not found");
+        }
+        Answer answer = optionalAnswer.get();
+        log.info("Answer was found: {}", id);
+        return answerMapper.toDto(answer);
     }
 }
