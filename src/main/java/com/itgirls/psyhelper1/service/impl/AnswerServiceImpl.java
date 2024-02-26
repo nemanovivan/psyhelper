@@ -101,7 +101,7 @@ public class AnswerServiceImpl implements AnswerService {
         log.info("Getting all answers");
         // Получение всех ответов из репозитория
         List<Answer> answers = answerRepository.findAll();
-        // Преобразование ответов в DTO с помощью стрима
+        // Преобразование ответов в DTO
         return answers.stream()
                 .map(answerMapper::toDto)
                 .collect(Collectors.toList());
@@ -110,35 +110,44 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public List<AnswerDto> getAnswersByUserId(UUID userId) {
         log.info("Getting answers by user id: {}", userId);
+        // Поиск ответов в репозитории по идентификатору пользователя
         Optional<Answer> answers = answerRepository.findByUserId(userId);
+        // Выброс исключения, если ответ не найден
         if (answers.isEmpty()) {
             log.error("Can't find answers with user id {}", userId);
             throw new NoSuchElementException("Answers not found");
         }
+        // Преобразование ответов в DTO и возвращение в виде списка
         return answers.stream().map(answerMapper::toDto).toList();
     }
 
     @Override
     public List<AnswerDto> getAnswersByQuestionId(UUID questionId) {
-        log.info("Getting answers by question id: {}",questionId);
+        log.info("Getting answers by question id: {}", questionId);
+        // Поиск ответов в репозитории по идентификатору вопроса
         Optional<Answer> answers = answerRepository.findByQuestionId(questionId);
+        // Выброс исключения, если ответ не найден
         if (answers.isEmpty()) {
             log.error("Can't find answers with question id {}", questionId);
             throw new NoSuchElementException("Answers not found");
         }
-        return answers.stream().map(answerMapper::toDto).toList();
+        // Преобразование ответов в DTO и возвращение в виде списка
+        return answers.stream()
+                .map(answerMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public AnswerDto getAnswerById(UUID id) {
         log.info("Getting answer: {}", id);
-        Optional<Answer> optionalAnswer = answerRepository.findById(id);
-        if (optionalAnswer.isEmpty()) {
-            log.error("Can't find answer with id {} ", id);
-            throw new NoSuchElementException("Answer not found");
-        }
-        Answer answer = optionalAnswer.get();
+        // Поиск ответов в репозитории по идентификатору вопроса
+        Answer answer = answerRepository.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Can't find answer with id {} ", id);
+                    return new NoSuchElementException("Answer not found");
+                });
         log.info("Answer was found: {}", id);
+        // Преобразование ответов в DTO
         return answerMapper.toDto(answer);
     }
 }
