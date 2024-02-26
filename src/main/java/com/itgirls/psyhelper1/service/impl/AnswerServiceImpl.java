@@ -9,6 +9,7 @@ import com.itgirls.psyhelper1.model.Users;
 import com.itgirls.psyhelper1.repository.AnswerRepository;
 import com.itgirls.psyhelper1.repository.UsersRepository;
 import com.itgirls.psyhelper1.service.AnswerService;
+import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,21 +31,21 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public AnswerDto createAnswer(AnswerCreateDto answerDto) {
         log.info("Creating new answer: {}", answerDto);
-        //Получение пользователя по userId
-        Optional<Users> user = usersRepository.findById(answerDto.getUserId());
-        if (user.isEmpty()) {
-            throw new NoSuchElementException("User not found");
-        }
-        // Преобразование объекта AnswerCreateDto в объект Answer с помощью AnswerMapper.toEntity()
-        Answer answer = answerMapper.toEntity(answerDto);
-        if (answer.getAnswerText() == null || answer.getAnswerText().isEmpty()) {
+        // Получение пользователя по userId и выброс исключения, если пользователь не найден
+        Users user = usersRepository.findById(answerDto.getUserId())
+                .orElseThrow(() -> new NoSuchElementException("User not found"));
+        // Проверка на пустое значение текста ответа
+        if (StringUtils.isEmpty(answerDto.getAnswerText())) {
             throw new IllegalArgumentException("Answer text cannot be empty");
         }
-        answer.setUserId(user.get());
+        // Обновление полей ответа
+        Answer answer = answerMapper.toEntity(answerDto);
+        answer.setUserId(user);
         answer.setRead(false);
         answer.setAuthorLiked(false);
         answer.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         try {
+            // Сохранение обновлённого ответа и преобразование в DTO
             Answer savedAnswer = answerRepository.save(answer);
             log.info("Answer created successfully id: {}", savedAnswer.getId());
             return answerMapper.toDto(savedAnswer);
@@ -57,24 +58,24 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public AnswerDto updateAnswer(UUID id, AnswerUpdateDto answerDto) {
         log.info("Updating answer: {}", answerDto);
-        Optional<Answer> optionalAnswer = answerRepository.findById(id);
-        if (optionalAnswer.isEmpty()) {
-            throw new NoSuchElementException("Answer id: " + id + " not found");
-        }
-        Optional<Users> user = usersRepository.findById(answerDto.getUserId());
-        if (user.isEmpty()) {
-            throw new NoSuchElementException("User not found");
-        }
-        Answer answer = optionalAnswer.get();
-        if (answer.getAnswerText() == null || answer.getAnswerText().isEmpty()) {
+        // Поиск ответа по id и выброс исключения, если ответ не найден
+        Answer answer = answerRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Answer id: " + id + " not found"));
+        // Поиск пользователя по userId и выброс исключения, если пользователь не найден
+        Users user = usersRepository.findById(answerDto.getUserId())
+                .orElseThrow(() -> new NoSuchElementException("User not found"));
+        // Проверка на пустое значение текста ответа
+        if (StringUtils.isEmpty(answer.getAnswerText())) {
             throw new IllegalArgumentException("Answer text cannot be empty");
         }
-        answer.setUserId(user.get());
+        // Обновление полей ответа
+        answer.setUserId(user);
         answer.setQuestionId(answerDto.getQuestionId());
         answer.setAnswerText(answerDto.getAnswerText());
         answer.setRead(answerDto.getIsRead());
         answer.setUpdatedAt(answerDto.getUpdatedAt());
         try {
+            // Сохранение обновлённого ответа и преобразование в DTO
             Answer savedAnswer = answerRepository.save(answer);
             log.info("Answer updated successfully id: {}", savedAnswer.getId());
             return answerMapper.toDto(savedAnswer);
