@@ -11,5 +11,4 @@ import java.util.UUID;
 public interface AnswerRepository extends JpaRepository<Answer, UUID> {
     Optional<Answer> findByUserId(UUID userId);
     Optional<Answer> findByQuestionId(UUID questionId);
-    Optional<Answer> findByUserIdAndQuestionId(UUID userId, UUID questionId);
 }
