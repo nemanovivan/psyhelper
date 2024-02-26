@@ -8,4 +8,9 @@ import org.springframework.context.annotation.Configuration;
 public class MapperBean {
     @Bean
     public UsersMapper usersMapper() {return Mappers.getMapper(UsersMapper.class);}
+
+    @Bean
+    public AssistantMapper assistantMapper() {
+        return Mappers.getMapper(AssistantMapper.class);
+    }
 }
