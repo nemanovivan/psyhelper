@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -88,21 +89,22 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public void deleteAnswer(UUID id) {
         log.info("Deleting answer with id: {}", id);
-        Optional<Answer> optionalAnswer = answerRepository.findById(id);
-        if (optionalAnswer.isPresent()) {
-            answerRepository.deleteById(id);
-            log.info("Answer was deleted with id {}", id);
-        } else {
-            log.error("Can't find answer with id {} ", id);
-            throw new NoSuchElementException("Answer not found.");
-        }
+        // Поиск ответа по id и выброс исключения, если ответ не найден
+        Answer answer = answerRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Answer not found."));
+        answerRepository.deleteById(id);
+        log.info("Answer was deleted with id {}", id);
     }
 
     @Override
     public List<AnswerDto> getAllAnswers() {
         log.info("Getting all answers");
+        // Получение всех ответов из репозитория
         List<Answer> answers = answerRepository.findAll();
-        return answers.stream().map(answerMapper::toDto).toList();
+        // Преобразование ответов в DTO с помощью стрима
+        return answers.stream()
+                .map(answerMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
