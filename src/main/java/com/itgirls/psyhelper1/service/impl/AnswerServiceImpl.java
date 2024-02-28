@@ -30,7 +30,7 @@ public class AnswerServiceImpl implements AnswerService {
     public AnswerDto createAnswer(AnswerDto answerDto) {
         log.info("Creating new answer: {}", answerDto);
         // Получение пользователя по userId и выброс исключения, если пользователь не найден
-        Users user = usersRepository.findById(answerDto.getUserId())
+        Users user = usersRepository.findById(answerDto.getUserId().getId())
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
         // Проверка на пустое значение текста ответа
         if (StringUtils.isEmpty(answerDto.getAnswerText())) {
@@ -58,7 +58,7 @@ public class AnswerServiceImpl implements AnswerService {
         Answer answer = answerRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Answer id: " + id + " not found"));
         // Поиск пользователя по userId и выброс исключения, если пользователь не найден
-        Users user = usersRepository.findById(answerDto.getUserId())
+        Users user = usersRepository.findById(answerDto.getUserId().getId())
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
         // Проверка на пустое значение текста ответа
         if (StringUtils.isEmpty(answer.getAnswerText())) {
