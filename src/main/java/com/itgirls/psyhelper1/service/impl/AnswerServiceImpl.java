@@ -1,8 +1,8 @@
 package com.itgirls.psyhelper1.service.impl;
 
-import com.itgirls.psyhelper1.dto.AnswerCreateDto;
+//import com.itgirls.psyhelper1.dto.AnswerCreateDto;
 import com.itgirls.psyhelper1.dto.AnswerDto;
-import com.itgirls.psyhelper1.dto.AnswerUpdateDto;
+//import com.itgirls.psyhelper1.dto.AnswerUpdateDto;
 import com.itgirls.psyhelper1.mappers.AnswerMapper;
 import com.itgirls.psyhelper1.model.Answer;
 import com.itgirls.psyhelper1.model.Users;
@@ -30,7 +30,7 @@ public class AnswerServiceImpl implements AnswerService {
     private final AnswerMapper answerMapper;
 
     @Override
-    public AnswerDto createAnswer(AnswerCreateDto answerDto) {
+    public AnswerDto createAnswer(AnswerDto answerDto) {
         log.info("Creating new answer: {}", answerDto);
         // Получение пользователя по userId и выброс исключения, если пользователь не найден
         Users user = usersRepository.findById(answerDto.getUserId())
@@ -42,9 +42,7 @@ public class AnswerServiceImpl implements AnswerService {
         // Обновление полей ответа
         Answer answer = answerMapper.toEntity(answerDto);
         answer.setUserId(user);
-        answer.setRead(false);
-        answer.setAuthorLiked(false);
-        answer.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        answer.setCreatedAt(answer.getCreatedAt());
         try {
             // Сохранение обновлённого ответа и преобразование в DTO
             Answer savedAnswer = answerRepository.save(answer);
@@ -57,7 +55,7 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public AnswerDto updateAnswer(UUID id, AnswerUpdateDto answerDto) {
+    public AnswerDto updateAnswer(UUID id, AnswerDto answerDto) {
         log.info("Updating answer: {}", answerDto);
         // Поиск ответа по id и выброс исключения, если ответ не найден
         Answer answer = answerRepository.findById(id)
@@ -73,7 +71,6 @@ public class AnswerServiceImpl implements AnswerService {
         answer.setUserId(user);
         answer.setQuestionId(answerDto.getQuestionId());
         answer.setAnswerText(answerDto.getAnswerText());
-        answer.setRead(answerDto.getIsRead());
         answer.setUpdatedAt(answerDto.getUpdatedAt());
         try {
             // Сохранение обновлённого ответа и преобразование в DTO
@@ -149,5 +146,20 @@ public class AnswerServiceImpl implements AnswerService {
         log.info("Answer was found: {}", id);
         // Преобразование ответов в DTO
         return answerMapper.toDto(answer);
+    }
+
+    @Override
+    public int getRating(UUID answerId) {
+        log.info("Getting rating for answer: {}", answerId);
+        //Поиск ответов в репозитории по идентификатору вопроса
+        Answer answer = answerRepository.findById(answerId)
+                .orElseThrow(() -> {
+                    log.error("Can't find answer with id {} ", answerId);
+                    return new NoSuchElementException("Answer not found");
+                });
+        //Подсчёт рейтинга
+        int rating = answer.getRating();
+        log.info("Answer rating: {}", rating);
+        return rating;
     }
 }
