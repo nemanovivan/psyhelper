@@ -1,8 +1,6 @@
 package com.itgirls.psyhelper1.service.impl;
 
-//import com.itgirls.psyhelper1.dto.AnswerCreateDto;
 import com.itgirls.psyhelper1.dto.AnswerDto;
-//import com.itgirls.psyhelper1.dto.AnswerUpdateDto;
 import com.itgirls.psyhelper1.mappers.AnswerMapper;
 import com.itgirls.psyhelper1.model.Answer;
 import com.itgirls.psyhelper1.model.Users;
@@ -14,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
