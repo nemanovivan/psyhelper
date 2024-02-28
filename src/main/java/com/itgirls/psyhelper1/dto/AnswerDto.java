@@ -1,5 +1,6 @@
 package com.itgirls.psyhelper1.dto;
 
+import com.itgirls.psyhelper1.model.Users;
 import lombok.*;
 
 import java.sql.Timestamp;
@@ -17,7 +18,7 @@ public class AnswerDto {
     private UUID questionId;
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
-    private UUID userId;
+    private Users userId;
     private int rating;
     private String answerText;
 }
