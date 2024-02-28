@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -21,17 +22,14 @@ public class Answer {
     @Column(name = "answer_text", nullable = false)
     private String answerText;
 
-    @Column(name = "is_read", nullable = false)
-    private boolean isRead;
-
-    @Column(name = "is_author_liked")
-    private boolean isAuthorLiked;
-
     @Column(name = "created_at", nullable = false)
-    private Timestamp createdAt;
+    private ZonedDateTime createdAt;
 
     @Column(name = "updated_at")
-    private Timestamp updatedAt;
+    private ZonedDateTime updatedAt;
+
+    @Column(name = "rating")
+    private int rating;
 
     @ManyToOne()
     @JoinColumn(name = "user_id")

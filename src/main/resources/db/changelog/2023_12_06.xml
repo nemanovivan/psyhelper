@@ -63,10 +63,9 @@
             CREATE TABLE IF NOT EXISTS "answer_to_question" (
             id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
             answer_text varchar NOT NULL,
-            is_read boolean NOT NULL,
-            is_author_liked boolean,
-            created_at time NOT NULL,
-            updated_at time,
+            created_at DateTime NOT NULL,
+            updated_at DateTime,
+            rating integer,
             user_id uuid NOT NULL,
             FOREIGN KEY (user_id) REFERENCES users (id),
             question_id uuid NOT NULL,
