@@ -1,8 +1,6 @@
 package com.itgirls.psyhelper1.controller;
 
-import com.itgirls.psyhelper1.dto.AnswerCreateDto;
 import com.itgirls.psyhelper1.dto.AnswerDto;
-import com.itgirls.psyhelper1.dto.AnswerUpdateDto;
 import com.itgirls.psyhelper1.service.AnswerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +19,7 @@ public class AnswerController {
     private final AnswerService answerService;
 
     @PostMapping
-    ResponseEntity createAnswer(@RequestBody @Valid AnswerCreateDto createDto) {
+    ResponseEntity createAnswer(@RequestBody @Valid AnswerDto createDto) {
         try {
             return ResponseEntity.ok(answerService.createAnswer(createDto));
         } catch (Exception e) {
@@ -30,7 +28,7 @@ public class AnswerController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity updateAnswer(@PathVariable("id") UUID id, @RequestBody @Valid AnswerUpdateDto updateDto) {
+    ResponseEntity updateAnswer(@PathVariable("id") UUID id, @RequestBody @Valid AnswerDto updateDto) {
         try {
             return ResponseEntity.ok(answerService.updateAnswer(id, updateDto));
         } catch (Exception e) {
@@ -61,5 +59,10 @@ public class AnswerController {
     @GetMapping
     List<AnswerDto> getAnswersByQuestionId(@PathVariable("id") UUID id) {
         return answerService.getAnswersByQuestionId(id);
+    }
+
+    @GetMapping
+    int getRating(@PathVariable("id") UUID id) {
+        return answerService.getRating(id);
     }
 }
