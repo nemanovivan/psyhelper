@@ -19,22 +19,6 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
-    @Column(name = "answer_text", nullable = false)
-    private String answerText;
-
-    @Column(name = "created_at", nullable = false)
-    private ZonedDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private ZonedDateTime updatedAt;
-
-    @Column(name = "rating")
-    private int rating;
-
-    @ManyToOne()
-    @JoinColumn(name = "user_id")
-    private Users userId;
-
     @ManyToOne
     @JoinColumn(name = "question_id")
     /*
@@ -43,4 +27,20 @@ public class Answer {
     private Question questionId;
      */
     private UUID questionId;
+
+    @Column(name = "created_at", nullable = false)
+    private ZonedDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private ZonedDateTime updatedAt;
+
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    private Users userId;
+
+    @Column(name = "rating")
+    private int rating;
+
+    @Column(name = "answer_text", nullable = false)
+    private String answerText;
 }

@@ -14,10 +14,10 @@ import java.util.UUID;
 @Setter
 public class AnswerDto {
     private UUID id;
-    private String answerText;
+    private UUID questionId;
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
     private UUID userId;
-    private UUID questionId;
     private int rating;
+    private String answerText;
 }
