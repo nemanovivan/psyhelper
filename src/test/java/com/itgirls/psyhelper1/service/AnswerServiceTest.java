@@ -141,7 +141,6 @@ public class AnswerServiceTest {
         answer3.setId(UUID.randomUUID());
 
         List<Answer> answers = Arrays.asList(answer1, answer2, answer3);
-        List<AnswerDto> answerDtos = Arrays.asList(new AnswerDto(), new AnswerDto(), new AnswerDto());
 
         // Настройка мок объектов
         when(answerRepository.findAll()).thenReturn(answers);
@@ -156,5 +155,34 @@ public class AnswerServiceTest {
 
         verify(answerRepository).findAll();
         verify(answerMapper, times(3)).toDto(Mockito.any(Answer.class));
+    }
+
+    @Test
+    public void testGetAnswersByUserId() {
+        // Создание тестовых данных
+        UUID userId = UUID.randomUUID();
+        Answer answer1 = new Answer();
+        answer1.setId(UUID.randomUUID());
+        answer1.setUserId(new Users());
+
+        Answer answer2 = new Answer();
+        answer2.setId(UUID.randomUUID());
+        answer2.setUserId(new Users());
+
+        List<Answer> answers = Arrays.asList(answer1, answer2);
+
+        // Настройка мок объектов
+        when(answerRepository.findByUserId(userId)).thenReturn(Optional.of((Answer) answers));
+        when(answerMapper.toDto(Mockito.any(Answer.class))).thenReturn(new AnswerDto());
+
+        // Вызов метода
+        List<AnswerDto> result = answerService.getAnswersByUserId(userId);
+
+        // Проверка результата
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(2);
+
+        verify(answerRepository).findByUserId(userId);
+        verify(answerMapper, times(2)).toDto(Mockito.any(Answer.class));
     }
 }
