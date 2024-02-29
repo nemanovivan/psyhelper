@@ -15,11 +15,12 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class AnswerServiceTest {
@@ -125,5 +126,35 @@ public class AnswerServiceTest {
         // Проверка результата
         verify(answerRepository).findById(answerId);
         verify(answerRepository).deleteById(answerId);
+    }
+
+    @Test
+    public void testGetAllAnswers() {
+        // Создание тестовых данных
+        Answer answer1 = new Answer();
+        answer1.setId(UUID.randomUUID());
+
+        Answer answer2 = new Answer();
+        answer2.setId(UUID.randomUUID());
+
+        Answer answer3 = new Answer();
+        answer3.setId(UUID.randomUUID());
+
+        List<Answer> answers = Arrays.asList(answer1, answer2, answer3);
+        List<AnswerDto> answerDtos = Arrays.asList(new AnswerDto(), new AnswerDto(), new AnswerDto());
+
+        // Настройка мок объектов
+        when(answerRepository.findAll()).thenReturn(answers);
+        when(answerMapper.toDto(Mockito.any(Answer.class))).thenReturn(new AnswerDto());
+
+        // Вызов метода
+        List<AnswerDto> result = answerService.getAllAnswers();
+
+        // Проверка результата
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).hasSize(3);
+
+        verify(answerRepository).findAll();
+        verify(answerMapper, times(3)).toDto(Mockito.any(Answer.class));
     }
 }
