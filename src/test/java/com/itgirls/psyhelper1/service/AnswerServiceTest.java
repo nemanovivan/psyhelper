@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -64,6 +65,47 @@ public class AnswerServiceTest {
         Assertions.assertThat(createdAnswer.getAnswerText()).isEqualTo(answerDto.getAnswerText());
         Assertions.assertThat(createdAnswer.getId()).isEqualTo(savedAnswer.getId());
 
+        verify(usersRepository).findById(answerDto.getUserId().getId());
+        verify(answerRepository).save(answer);
+        verify(answerMapper).toDto(savedAnswer);
+    }
+
+    @Test
+    public void testUpdateAnswer() {
+        // Создание тестовых данных
+        UUID answerId = UUID.randomUUID();
+        AnswerDto answerDto = new AnswerDto();
+        answerDto.setUserId(new Users());
+        answerDto.setQuestionId(UUID.randomUUID());
+        answerDto.setAnswerText("updatedText");
+        answerDto.setUpdatedAt(ZonedDateTime.now());
+
+        Users user = new Users();
+        user.setId(answerDto.getUserId().getId());
+
+        Answer answer = new Answer();
+        answer.setId(answerDto.getUserId().getId());
+
+        Answer savedAnswer = new Answer();
+        savedAnswer.setId(answerId);
+
+        // Настройка мок объектов
+        when(answerRepository.findById(answerId)).thenReturn(Optional.of(answer));
+        when(usersRepository.findById(answerDto.getUserId().getId())).thenReturn(Optional.of(user));
+        when(answerRepository.save(Mockito.any(Answer.class))).thenReturn(savedAnswer);
+        when(answerMapper.toDto(savedAnswer)).thenReturn(answerDto);
+
+        //Вызов метода
+        AnswerDto updatedAnswer = answerService.updateAnswer(answerId, answerDto);
+
+        //Проверка результата
+        Assertions.assertThat(updatedAnswer).isNotNull();
+        Assertions.assertThat(updatedAnswer.getUserId()).isEqualTo(answerDto.getUserId());
+        Assertions.assertThat(updatedAnswer.getQuestionId()).isEqualTo(answerDto.getQuestionId());
+        Assertions.assertThat(updatedAnswer.getAnswerText()).isEqualTo(answerDto.getAnswerText());
+        Assertions.assertThat(updatedAnswer.getUpdatedAt()).isEqualTo(answerDto.getUpdatedAt());
+
+        verify(answerRepository).findById(answerId);
         verify(usersRepository).findById(answerDto.getUserId().getId());
         verify(answerRepository).save(answer);
         verify(answerMapper).toDto(savedAnswer);
