@@ -1,6 +1,6 @@
 package com.itgirls.psyhelper1.service;
 
-import com.itgirls.psyhelper1.dto.AnswerDto;
+import com.itgirls.psyhelper1.dto.answer.AnswerDto;
 
 import java.util.List;
 import java.util.UUID;

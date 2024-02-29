@@ -1,4 +1,4 @@
-package com.itgirls.psyhelper1.dto;
+package com.itgirls.psyhelper1.dto.answer;
 
 import com.itgirls.psyhelper1.model.Users;
 import lombok.*;

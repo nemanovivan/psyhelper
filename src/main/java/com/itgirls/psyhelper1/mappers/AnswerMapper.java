@@ -1,13 +1,11 @@
 package com.itgirls.psyhelper1.mappers;
 
 //import com.itgirls.psyhelper1.dto.AnswerCreateDto;
-import com.itgirls.psyhelper1.dto.AnswerDto;
+import com.itgirls.psyhelper1.dto.answer.AnswerDto;
 import com.itgirls.psyhelper1.model.Answer;
 import com.itgirls.psyhelper1.model.Users;
-import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 
 import java.util.UUID;
 
