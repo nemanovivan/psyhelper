@@ -161,6 +161,7 @@ public class AnswerServiceTest {
     public void testGetAnswersByUserId() {
         // Создание тестовых данных
         UUID userId = UUID.randomUUID();
+
         Answer answer1 = new Answer();
         answer1.setId(UUID.randomUUID());
         answer1.setUserId(new Users());
@@ -190,6 +191,7 @@ public class AnswerServiceTest {
     public void testGetAnswersByQuestionId() {
         // Создание тестовых данных
         UUID questionId = UUID.randomUUID();
+
         Answer answer1 = new Answer();
         answer1.setId(UUID.randomUUID());
         answer1.setUserId(new Users());
