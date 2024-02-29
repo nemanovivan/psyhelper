@@ -161,7 +161,6 @@ public class AnswerServiceTest {
     public void testGetAnswersByUserId() {
         // Создание тестовых данных
         UUID userId = UUID.randomUUID();
-
         Answer answer1 = new Answer();
         answer1.setId(UUID.randomUUID());
         answer1.setUserId(new Users());
@@ -191,7 +190,6 @@ public class AnswerServiceTest {
     public void testGetAnswersByQuestionId() {
         // Создание тестовых данных
         UUID questionId = UUID.randomUUID();
-
         Answer answer1 = new Answer();
         answer1.setId(UUID.randomUUID());
         answer1.setUserId(new Users());
@@ -221,7 +219,6 @@ public class AnswerServiceTest {
     public void testGetAnswerById() {
         // Создание тестовых данных
         UUID answerId = UUID.randomUUID();
-
         Answer answer = new Answer();
         answer.setId(answerId);
 
@@ -238,5 +235,25 @@ public class AnswerServiceTest {
 
         verify(answerRepository).findById(answerId);
         verify(answerMapper).toDto(answer);
+    }
+
+    @Test
+    public void testGetRating() {
+        // Создание тестовых данных
+        UUID answerId = UUID.randomUUID();
+        Answer answer = new Answer();
+        answer.setId(answerId);
+        answer.setRating(15);
+
+        // Настройка мок объектов
+        when(answerRepository.findById(answerId)).thenReturn(Optional.of(answer));
+
+        // Вызов метода
+        int result = answerService.getRating(answerId);
+
+        // Проверка результата
+        Assertions.assertThat(result).isEqualTo(15);
+
+        verify(answerRepository).findById(answerId);
     }
 }
