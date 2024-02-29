@@ -216,4 +216,27 @@ public class AnswerServiceTest {
         verify(answerRepository).findByQuestionId(questionId);
         verify(answerMapper, times(2)).toDto(Mockito.any(Answer.class));
     }
+
+    @Test
+    public void testGetAnswerById() {
+        // Создание тестовых данных
+        UUID answerId = UUID.randomUUID();
+
+        Answer answer = new Answer();
+        answer.setId(answerId);
+
+        // Настройка мок объектов
+        when(answerRepository.findById(answerId)).thenReturn(Optional.of(answer));
+        when(answerMapper.toDto(answer)).thenReturn(new AnswerDto());
+
+        // Вызов метода
+        AnswerDto result = answerService.getAnswerById(answerId);
+
+        // Проверка результата
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.getId()).isEqualTo(answerId);
+
+        verify(answerRepository).findById(answerId);
+        verify(answerMapper).toDto(answer);
+    }
 }
