@@ -1,10 +1,11 @@
-package com.itgirls.psyhelper1.service;
+package com.itgirls.psyhelper1.service.impl;
 
 import com.itgirls.psyhelper1.dto.UsersDto;
 import com.itgirls.psyhelper1.dto.UsersRegistrationDto;
 import com.itgirls.psyhelper1.mappers.UsersMapper;
 import com.itgirls.psyhelper1.model.Users;
 import com.itgirls.psyhelper1.repository.UsersRepository;
+import com.itgirls.psyhelper1.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UsersServiceImpl implements UsersService{
+public class UsersServiceImpl implements UsersService {
     private final UsersRepository repository;
     private final UsersMapper usersMapper;
 

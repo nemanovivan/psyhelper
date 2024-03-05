@@ -6,6 +6,7 @@ import com.itgirls.psyhelper1.mappers.UsersMapper;
 import com.itgirls.psyhelper1.model.Users;
 import com.itgirls.psyhelper1.model.UsersRole;
 import com.itgirls.psyhelper1.repository.UsersRepository;
+import com.itgirls.psyhelper1.service.impl.UsersServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
