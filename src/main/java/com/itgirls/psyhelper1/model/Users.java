@@ -3,7 +3,8 @@ package com.itgirls.psyhelper1.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Timestamp;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 @Builder
@@ -30,8 +31,11 @@ public class Users {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "helper", nullable = false)
+    private boolean helper;
+
     @Column(name = "date_of_birth", nullable = false)
-    private Timestamp dateOfBirth;
+    private Date dateOfBirth;
 
     @Column(name = "city")
     private String city;
@@ -47,8 +51,20 @@ public class Users {
     private UsersRole usersRole;
 
     @Column(name = "created_at", nullable = false)
-    private Timestamp createdAt;
+    private ZonedDateTime createdAt;
 
     @Column(name = "updated_at")
-    private Timestamp updatedAt;
+    private ZonedDateTime updatedAt;
+
+    @OneToOne
+    @JoinColumn(name = "assistant_id", referencedColumnName = "id")
+    private Assistant assistant;
+
+    @OneToMany(mappedBy = "users")
+    private List<Answer> answers;
+
+    @Transient
+    public int getNumberOfAnswers() {
+        return answers != null ? answers.size() : 0;
+    }
 }
