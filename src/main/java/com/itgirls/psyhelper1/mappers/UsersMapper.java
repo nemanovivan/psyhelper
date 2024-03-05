@@ -15,6 +15,7 @@ public interface UsersMapper {
     UsersMapper INSTANCE = Mappers.getMapper(UsersMapper.class);
 
     @Mapping(source = "usersRole.id", target = "usersRoleId")
+    @Mapping(source = "getNumberOfAnswers", target = "numberOfAnswers")
     UsersDto toDto (Users users);
 
     Users toEntity(UsersDto usersDto);
