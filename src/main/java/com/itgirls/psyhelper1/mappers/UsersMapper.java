@@ -2,8 +2,8 @@ package com.itgirls.psyhelper1.mappers;
 
 import com.itgirls.psyhelper1.dto.UsersDto;
 import com.itgirls.psyhelper1.dto.UsersRegistrationDto;
-import com.itgirls.psyhelper1.dto.UsersResponseDto;
-import com.itgirls.psyhelper1.dto.UsersSearchResponseDto;
+import com.itgirls.psyhelper1.dto.assistantDto.AssistantDto;
+import com.itgirls.psyhelper1.model.Assistant;
 import com.itgirls.psyhelper1.model.Users;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
@@ -22,7 +22,7 @@ public interface UsersMapper {
     @Mapping(source = "usersRoleId", target = "usersRole.id")
     Users toEntity(UsersRegistrationDto usersRegistrationDto);
 
-    UsersSearchResponseDto toSearchResponseDto(Users users);
-
-    UsersResponseDto toResponseDto(Users users);
+    default AssistantDto toDto(Assistant assistant) {
+        return AssistantMapper.INSTANCE.toDto(assistant);
+    }
 }
