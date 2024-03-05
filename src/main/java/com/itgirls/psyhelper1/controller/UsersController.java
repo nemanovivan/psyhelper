@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -28,6 +29,11 @@ public class UsersController {
     @GetMapping("/{username}")
     UsersDto getUserByUsername(@PathVariable("username") String username) {
         return usersService.findByUsername(username);
+    }
+
+    @GetMapping("/users")
+    List<UsersDto> getUsersByUsernameAndAssistantRating(@RequestParam String username, @RequestParam int rating) {
+        return usersService.findUsersByUsernameAndAssistantRating(username, rating);
     }
 
     @PostMapping("/registration")

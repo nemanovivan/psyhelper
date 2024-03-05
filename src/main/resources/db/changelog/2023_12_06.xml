@@ -36,9 +36,10 @@
             FOREIGN KEY (user_id) REFERENCES users (id),
             assistant_qualification varchar,
             is_expert boolean NOT NULL,
+            experience integer NOT NULL,
             rating integer,
-            created_at time NOT NULL,
-            updated_at time
+            created_at DateTime NOT NULL,
+            updated_at DateTime
             );
 
             CREATE TABLE IF NOT EXISTS "question_themes" (

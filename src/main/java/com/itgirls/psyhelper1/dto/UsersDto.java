@@ -1,9 +1,10 @@
 package com.itgirls.psyhelper1.dto;
 
+import com.itgirls.psyhelper1.model.Assistant;
 import com.itgirls.psyhelper1.model.UsersRole;
 import lombok.*;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -17,9 +18,12 @@ public class UsersDto {
     private String username;
     private String email;
     private String phone;
-    private Timestamp dateOfBirth;
+    private boolean helper;
+    private Date dateOfBirth;
     private String city;
     private String aboutUser;
     private String photoLink;
+    private Assistant assistant;
+    private int numberOfAnswers;
     private UUID usersRoleId;
 }
