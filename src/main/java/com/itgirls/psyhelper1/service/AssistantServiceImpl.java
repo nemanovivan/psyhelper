@@ -1,6 +1,8 @@
 package com.itgirls.psyhelper1.service;
 
-import com.itgirls.psyhelper1.dto.*;
+import com.itgirls.psyhelper1.dto.assistantDto.AssistantCreateDto;
+import com.itgirls.psyhelper1.dto.assistantDto.AssistantDto;
+import com.itgirls.psyhelper1.dto.assistantDto.AssistantUpdateDto;
 import com.itgirls.psyhelper1.mappers.AssistantMapper;
 import com.itgirls.psyhelper1.model.Assistant;
 import com.itgirls.psyhelper1.model.Users;
@@ -11,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +24,7 @@ public class AssistantServiceImpl implements AssistantService{
 
     @Override
     public AssistantDto createAssistant(AssistantCreateDto assistantCreateDto) {
-        UUID usersId = assistantCreateDto.getUsersIdDto().getId();
+        UUID usersId = assistantCreateDto.getUsersDto().getId();
         Optional<Users> usersOptional = usersRepository.findById(usersId);
         Users user = null;
         if (usersOptional.isPresent()) {
@@ -38,7 +39,7 @@ public class AssistantServiceImpl implements AssistantService{
     }
 
     @Override
-    public AssistantUpdateResponseDto updateAssistant(AssistantUpdateDto assistantUpdateDto) {
+    public AssistantDto updateAssistant(AssistantUpdateDto assistantUpdateDto) {
         UUID assistantId = assistantUpdateDto.getId();
         Optional<Assistant> assistantOptional = assistantRepository.findById(assistantId);
         Assistant assistant = null;
@@ -49,9 +50,9 @@ public class AssistantServiceImpl implements AssistantService{
             assistant.setExpert(assistantUpdateDto.isExpert());
             assistant.setUpdatedAt(assistantUpdateDto.getUpdatedAt());
             log.info("Assistant successfully updated");
-            return assistantMapper.toUpdateResponseDto(assistant);
+            return assistantMapper.toDto(assistant);
         } else {
-            log.info("Can't find assistant with id {}" + assistantId);
+            log.info("Can't find assistant with id {}", assistantId);
             throw new NoSuchElementException("No value present");
         }
     }
@@ -61,51 +62,9 @@ public class AssistantServiceImpl implements AssistantService{
         Optional<Assistant> assistantOptional = assistantRepository.findById(id);
         if (assistantOptional.isPresent()) {
             assistantRepository.deleteById(id);
-            log.info("Assistant with id {}" + id + "was deleted");
+            log.info("Assistant with id {} was deleted", id);
         } else {
-            log.info("Can't find assistant with id {}" + id);
-            throw new NoSuchElementException("No value present");
-        }
-    }
-
-    @Override
-    public List<AssistantSearchResponseDto> getAssistantsSortedByRatingDesc() {
-        log.info("Get sorted descending list of assistants by rating");
-        log.info("Sorted descending list of assistants received");
-        return assistantRepository.findAll()
-                .stream()
-                .sorted(Comparator.comparingInt(Assistant::getRating).reversed())
-                .map(assistant -> assistantMapper.toSearchResponseDto(assistant))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public AssistantResponseDto getInfoById(UUID id) {
-        Optional<Assistant> assistantOptional = assistantRepository.findById(id);
-        if(assistantOptional.isPresent()){
-            log.info("Assistant with id {}" +id + "was found: {}", assistantOptional.get());
-            return assistantMapper.toResponseDto(assistantOptional.get());
-        }
-        else{
-            log.info("Can't find assistant with id {}" + id);
-            throw new NoSuchElementException("No value present");
-        }
-    }
-
-    @Override
-    public AssistantResponseDto getAssistantByUsername(String username) {
-        Optional<Users> usersOptional = usersRepository.findUserByUsername(username);
-        if (usersOptional.isPresent()) {
-            Users user = usersOptional.get();
-            Optional<Assistant> assistantOptional = assistantRepository.findAssistantByUsers(user);
-            if (assistantOptional.isPresent()) {
-                return assistantMapper.toResponseDto(assistantOptional.get());
-            } else {
-                log.info("Can't find assistant with username {}" + username);
-                throw new NoSuchElementException("No value present");
-            }
-        } else {
-            log.info("Can't find user with username {}" + username);
+            log.info("Can't find assistant with id {}", id);
             throw new NoSuchElementException("No value present");
         }
     }
