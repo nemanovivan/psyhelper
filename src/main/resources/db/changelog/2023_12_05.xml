@@ -22,12 +22,17 @@
             password varchar NOT NULL,
             users_role_id uuid NOT NULL,
             FOREIGN KEY (users_role_id) REFERENCES users_role (id),
-            date_of_birth time NOT NULL,
+            assistant_id uuid,
+            FOREIGN KEY (assistant_id) REFERENCES assistant (id),
+            answer_to_question_id uuid,
+            FOREIGN KEY (answer_to_question_id) REFERENCES answer_to_question (id),
+            helper boolean NOT NULL,
+            date_of_birth Date NOT NULL,
             city varchar,
             about_user varchar,
             photo_link varchar,
-            created_at time  NOT NULL,
-            updated_at time  NOT NULL
+            created_at DateTime  NOT NULL,
+            updated_at DateTime  NOT NULL
             );
 
             Create table if not exists chat_room (
