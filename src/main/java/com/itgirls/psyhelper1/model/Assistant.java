@@ -3,7 +3,7 @@ package com.itgirls.psyhelper1.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Builder
@@ -28,12 +28,15 @@ public class Assistant {
     @Column(name = "is_expert", nullable = false)
     private boolean isExpert;
 
+    @Column(name = "experience", nullable = false)
+    private int experience;
+
     @Column(name = "rating")
     private int rating;
 
     @Column(name = "created_at", nullable = false)
-    private Timestamp createdAt;
+    private ZonedDateTime createdAt;
 
     @Column(name = "updated_at")
-    private Timestamp updatedAt;
+    private ZonedDateTime updatedAt;
 }
