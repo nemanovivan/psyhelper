@@ -1,8 +1,8 @@
-package com.itgirls.psyhelper1.dto;
+package com.itgirls.psyhelper1.dto.assistantDto;
 
 import lombok.*;
 
-import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -13,5 +13,5 @@ public class AssistantUpdateDto {
     private UUID id;
     private String qualification;
     private boolean isExpert;
-    private Timestamp updatedAt;
+    private ZonedDateTime updatedAt;
 }
