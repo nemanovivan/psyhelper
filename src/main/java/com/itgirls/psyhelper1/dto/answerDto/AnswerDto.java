@@ -1,9 +1,8 @@
-package com.itgirls.psyhelper1.dto.answer;
+package com.itgirls.psyhelper1.dto.answerDto;
 
 import com.itgirls.psyhelper1.model.Users;
 import lombok.*;
 
-import java.sql.Timestamp;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 

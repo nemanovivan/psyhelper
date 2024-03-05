@@ -1,7 +1,7 @@
 package com.itgirls.psyhelper1.mappers;
 
 //import com.itgirls.psyhelper1.dto.AnswerCreateDto;
-import com.itgirls.psyhelper1.dto.answer.AnswerDto;
+import com.itgirls.psyhelper1.dto.answerDto.AnswerDto;
 import com.itgirls.psyhelper1.model.Answer;
 import com.itgirls.psyhelper1.model.Users;
 import org.mapstruct.Mapper;

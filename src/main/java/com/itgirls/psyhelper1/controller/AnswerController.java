@@ -1,6 +1,6 @@
 package com.itgirls.psyhelper1.controller;
 
-import com.itgirls.psyhelper1.dto.answer.AnswerDto;
+import com.itgirls.psyhelper1.dto.answerDto.AnswerDto;
 import com.itgirls.psyhelper1.service.AnswerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

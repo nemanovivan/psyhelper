@@ -1,6 +1,6 @@
 package com.itgirls.psyhelper1.service;
 
-import com.itgirls.psyhelper1.dto.answer.AnswerDto;
+import com.itgirls.psyhelper1.dto.answerDto.AnswerDto;
 import com.itgirls.psyhelper1.mappers.AnswerMapper;
 import com.itgirls.psyhelper1.model.Answer;
 import com.itgirls.psyhelper1.model.Users;
