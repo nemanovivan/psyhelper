@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="1" author="Maria">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT count(*) FROM pg_extension WHERE extname='uuid-ossp';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+        </sql>
+    </changeSet>
+
+    <changeSet id="2" author="Maria">
+        <sql>
+            CREATE TABLE IF NOT EXISTS "message" (
+            id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+            message_text varchar NOT NULL,
+            is_read boolean NOT NULL,
+            created_at time NOT NULL,
+            updated_at time,
+            user_id uuid NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users (id),
+            room_id uuid NOT NULL,
+            FOREIGN KEY (room_id) REFERENCES chat_room (id)
+            );
+
+            CREATE TABLE IF NOT EXISTS "assistant" (
+            id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+            user_id uuid NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users (id),
+            assistant_qualification varchar,
+            is_expert boolean NOT NULL,
+            rating integer,
+            created_at time NOT NULL,
+            updated_at time
+            );
+
+            CREATE TABLE IF NOT EXISTS "question_themes" (
+            id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+            theme_name varchar NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS "question" (
+            id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+            user_id uuid NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users (id),
+            theme_id uuid NOT NULL,
+            FOREIGN KEY (theme_id) REFERENCES question_themes (id),
+            anonymous boolean NOT NULL,
+            just_expert_respond boolean NOT NULL,
+            question_text varchar NOT NULL,
+            is_closed boolean,
+            created_at time NOT NULL,
+            updated_at time
+            );
+
+            CREATE TABLE IF NOT EXISTS "answer_to_question" (
+            id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+            answer_text varchar NOT NULL,
+            is_read boolean NOT NULL,
+            is_author_liked boolean,
+            created_at time NOT NULL,
+            updated_at time,
+            user_id uuid NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users (id),
+            question_id uuid NOT NULL,
+            FOREIGN KEY (question_id) REFERENCES question (id)
+            );
+
+
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
