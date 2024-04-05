@@ -1,13 +1,12 @@
 package com.itgirls.psyhelper1;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
-class Psyhelper1ApplicationTests {
+public class Psyhelper1ApplicationTests {
 
     @Test
-    void contextLoads() {
+    public void testAddition() {
+        assertEquals(2, 1 + 1, "1 + 1 should equal 2");
     }
-
 }

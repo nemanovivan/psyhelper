@@ -9,6 +9,7 @@ public interface QuestionThemeService {
     void deleteThemeById(UUID id);
     QuestionThemeDTO saveTheme(QuestionThemeDTO themeDTO);
     Optional<QuestionThemeDTO> findByThemeName(String themeName);
+
     Optional<QuestionThemeDTO> getInfoById(UUID id);
 
 }
